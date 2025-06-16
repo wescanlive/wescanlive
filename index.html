@@ -1,46 +1,62 @@
-
-<!-- index.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WeScan.live</title>
+  <title>WeScan.live – Privacy Starts With Awareness</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #0a192f, #112240);
+      color: #e6f1ff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(8px);
+      border-radius: 1rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    }
+  </style>
 </head>
-<body class="bg-blue-950 text-white font-sans">
-  <header class="p-6 flex justify-between items-center bg-blue-900 shadow-md">
-    <div class="text-2xl font-bold">WeScan.live</div>
+<body class="min-h-screen">
+  <header class="w-full p-6 flex justify-between items-center">
+    <div class="text-2xl font-bold text-white tracking-wider">WeScan.live</div>
+    <nav>
+      <a href="#blog" class="text-gray-400 hover:text-white transition-colors duration-200">Blog</a>
+    </nav>
   </header>
 
-  <section class="text-center py-20 px-6">
-    <h1 class="text-4xl font-bold mb-4">Born from concern, built with care</h1>
-    <p class="text-xl mb-10">WeScan protects people like you.</p>
+  <section class="text-center py-24 px-6">
+    <div class="glass max-w-3xl mx-auto p-10">
+      <h1 class="text-4xl md:text-5xl font-bold mb-6">Stay Safe in a Leaky World</h1>
+      <p class="text-lg md:text-xl mb-10">WeScan was born from concern and built with care — made by a common man for people like you.</p>
 
-    <div class="max-w-xl mx-auto">
-      <input type="email" placeholder="Enter your email to scan" class="w-full p-4 rounded-md text-black" />
-      <button class="mt-4 px-6 py-3 bg-blue-700 hover:bg-blue-800 rounded-md">Scan Now</button>
+      <div class="mt-6 flex flex-col md:flex-row gap-4 justify-center">
+        <input type="email" placeholder="Enter your email to scan..." class="p-4 rounded-md text-gray-800 w-full md:w-96" />
+        <button class="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-md text-white font-semibold">Scan Now</button>
+      </div>
     </div>
   </section>
 
-  <section class="bg-blue-900 p-10">
+  <section id="blog" class="py-16 px-6 bg-blue-900 bg-opacity-20">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-3xl font-semibold mb-6">Latest Blog Posts</h2>
-      <div class="space-y-4">
-        <div class="p-4 bg-blue-800 rounded-md">
-          <h3 class="text-xl font-bold">How to Know if Your Data Was Leaked</h3>
-          <p class="text-sm mt-2">Tips and steps to check your exposure in data breaches...</p>
+      <h2 class="text-3xl font-semibold mb-10">📚 Recent Blog Posts</h2>
+      <div class="space-y-6">
+        <div class="glass p-6">
+          <h3 class="text-xl font-bold mb-2">🔍 How to Know if Your Email is Leaked</h3>
+          <p class="text-sm text-gray-300">Step-by-step guide to check if your personal data is compromised and what to do next.</p>
         </div>
-        <div class="p-4 bg-blue-800 rounded-md">
-          <h3 class="text-xl font-bold">Why You Should Check Your Digital Footprint Monthly</h3>
-          <p class="text-sm mt-2">Protecting your privacy starts with awareness...</p>
+        <div class="glass p-6">
+          <h3 class="text-xl font-bold mb-2">🛡️ Tools to Protect Your Digital Identity</h3>
+          <p class="text-sm text-gray-300">A curated list of tools to help you stay ahead of hackers and data breaches.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <footer class="text-center py-6 text-sm text-blue-300 bg-blue-950">
-    &copy; 2025 WeScan.live — Made with care by a common man
+  <footer class="text-center py-10 text-sm text-gray-400">
+    &copy; 2025 WeScan.live — Built to protect, not to profit.
   </footer>
 </body>
 </html>
