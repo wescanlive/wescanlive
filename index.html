@@ -1,356 +1,663 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WeScan.live — Digital Protection for All</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      background-color: #0a192f;
-      color: #e6f1ff;
-      font-family: 'Inter', sans-serif;
-    }
-    .main-card {
-      background-color: #112240;
-      border-radius: 0.5rem;
-      padding: 3rem;
-      max-width: 640px;
-      margin: auto;
-      box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
-    }
-    .action-btn {
-      background-color: #64ffda;
-      color: #0a192f;
-      font-weight: bold;
-      padding: 0.75rem 1.5rem;
-      border-radius: 0.375rem;
-      transition: transform 0.2s, box-shadow 0.3s;
-    }
-    .action-btn:hover {
-      transform: scale(1.03);
-      box-shadow: 0 0 15px rgba(100, 255, 218, 0.8);
-    }
-    .result-card {
-      background-color: #0f2a40;
-      border-left: 4px solid #64ffda;
-      animation: fadeIn 0.5s ease-in-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .breach-item {
-      background-color: #112240;
-      border-radius: 0.375rem;
-      transition: all 0.3s ease;
-    }
-    .breach-item:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    .spinner {
-      width: 24px;
-      height: 24px;
-      border: 3px solid rgba(100, 255, 218, 0.3);
-      border-top: 3px solid #64ffda;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeScan.live — Premium Security Intelligence</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0a192f;
+            --secondary: #112240;
+            --accent: #64ffda;
+            --text: #e6f1ff;
+            --light-text: #8892b0;
+            --card-bg: rgba(17, 34, 64, 0.8);
+            --glass: rgba(17, 34, 64, 0.6);
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--primary) 0%, #07162e 100%);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        /* Premium Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 5%;
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(100, 255, 218, 0.1);
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--accent), #4db5ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+        
+        .nav-links a {
+            color: var(--light-text);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.05rem;
+            position: relative;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 5%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(100, 255, 218, 0.05) 0%, rgba(10, 25, 47, 0) 70%);
+            z-index: -1;
+        }
+        
+        .hero-content {
+            max-width: 850px;
+            text-align: center;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            background: linear-gradient(90deg, var(--text), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--light-text);
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+        }
+        
+        /* Scan Card */
+        .scan-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 700px;
+            margin: 0 auto;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+        }
+        
+        .scan-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #64ffda, #4db5ff, #64ffda);
+            z-index: -1;
+            border-radius: 22px;
+            animation: gradient-border 6s ease infinite;
+            background-size: 400% 400%;
+        }
+        
+        @keyframes gradient-border {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .scan-form {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .scan-input {
+            flex: 1;
+            padding: 1.2rem 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(100, 255, 218, 0.2);
+            background: rgba(10, 25, 47, 0.5);
+            color: var(--text);
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+        
+        .scan-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(100, 255, 218, 0.2);
+        }
+        
+        .action-btn {
+            background: linear-gradient(135deg, var(--accent), #4db5ff);
+            color: var(--primary);
+            font-weight: 600;
+            padding: 0 2.5rem;
+            border-radius: 12px;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 5px 15px rgba(100, 255, 218, 0.3);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(100, 255, 218, 0.5);
+        }
+        
+        .security-note {
+            font-size: 0.9rem;
+            color: var(--light-text);
+            margin-top: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        /* Stats Section */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 4rem;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--accent), #4db5ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--light-text);
+            font-size: 1rem;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 8rem 5%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgxMDAsMjU1LDIxOCwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==');
+        }
+        
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 5rem;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+        
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--light-text);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 2.5rem;
+            transition: var(--transition);
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent);
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover::before {
+            width: 100%;
+            opacity: 0.1;
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-description {
+            color: var(--light-text);
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--secondary);
+            padding: 4rem 5% 2rem;
+            border-top: 1px solid rgba(100, 255, 218, 0.1);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--accent);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: var(--light-text);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(100, 255, 218, 0.1);
+            color: var(--light-text);
+            font-size: 0.9rem;
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem 5%;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .scan-form {
+                flex-direction: column;
+            }
+            
+            .action-btn {
+                padding: 1.2rem;
+            }
+        }
+    </style>
 </head>
-<body class="min-h-screen flex flex-col">
-  <header class="p-6 flex justify-center items-center bg-[#0f2a40] shadow-md">
-    <div class="text-2xl font-bold text-white text-center">WeScan.live</div>
-  </header>
-
-  <main class="flex-1 py-20 px-4">
-    <div class="main-card text-center">
-      <h1 class="text-4xl md:text-5xl font-bold mb-6">Scan for email breaches. Stay safe.</h1>
-      <p class="mb-6 text-gray-300">Born from concern, built with care — WeScan protects people like you.</p>
-
-      <form id="scan-form" class="flex flex-col md:flex-row gap-4 justify-center mt-8">
-        <input 
-          type="email" 
-          id="email-input" 
-          placeholder="Enter your email" 
-          required 
-          class="p-3 rounded-md w-full md:w-96 text-gray-800 shadow-sm" 
-        />
-        <button type="submit" id="scan-button" class="action-btn flex items-center justify-center">
-          <span id="button-text">Scan Now</span>
-          <span id="spinner" class="spinner ml-2 hidden"></span>
-        </button>
-      </form>
-
-      <p class="mt-6 text-sm text-gray-400">Your email is never stored or shared.</p>
-      
-      <div id="results-container" class="mt-8 text-left hidden">
-        <!-- Results will be displayed here -->
-      </div>
-    </div>
-
-    <nav class="mt-16 flex justify-center gap-6 text-lg text-gray-400">
-      <a href="#blog" class="hover:text-white">Blog</a>
-      <a href="#contact" class="hover:text-white">Contact</a>
-      <a href="#about" class="hover:text-white">About</a>
-      <a href="#faq" class="hover:text-white">FAQ</a>
+<body>
+    <!-- Premium Navigation -->
+    <nav class="navbar">
+        <div class="logo">WeScan.live</div>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#breaches">Breaches</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#support">Support</a>
+        </div>
+        <button class="action-btn">Get Started</button>
     </nav>
-  </main>
 
-  <section id="blog" class="py-20 px-6 bg-[#0f2a40]">
-    <div class="max-w-4xl mx-auto">
-      <h2 class="text-3xl font-bold mb-8 text-center">📚 Latest Posts</h2>
-      <div class="grid md:grid-cols-2 gap-6">
-        <div class="bg-[#112240] p-6 rounded-lg shadow-md">
-          <h3 class="text-xl font-semibold mb-2">🔍 How to Know if You've Been Hacked</h3>
-          <p class="text-sm text-gray-400">Understand early signs and the steps to recover fast.</p>
-        </div>
-        <div class="bg-[#112240] p-6 rounded-lg shadow-md">
-          <h3 class="text-xl font-semibold mb-2">🛡️ Best Practices for Email Safety</h3>
-          <p class="text-sm text-gray-400">Learn how to protect your inbox and digital footprint.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="contact" class="py-20 px-6">
-    <div class="max-w-xl mx-auto text-center">
-      <h2 class="text-3xl font-bold mb-6">Need Help or Have Questions?</h2>
-      <p class="mb-8 text-gray-300">We're real people. Just drop us a line and we'll get back to you.</p>
-      <a href="mailto:support@wescan.live" class="action-btn inline-block">Email Us</a>
-    </div>
-  </section>
-
-  <section id="about" class="py-20 px-6 bg-[#0f2a40]">
-    <div class="max-w-3xl mx-auto text-center">
-      <h2 class="text-3xl font-bold mb-6">About WeScan.live</h2>
-      <p class="text-gray-300">WeScan is built by everyday people to give everyone the power to check and understand digital breaches. We believe in transparency and safety for all.</p>
-    </div>
-  </section>
-
-  <section id="faq" class="py-20 px-6">
-    <div class="max-w-3xl mx-auto">
-      <h2 class="text-3xl font-bold mb-6 text-center">Frequently Asked Questions</h2>
-      <div class="space-y-6">
-        <div>
-          <h3 class="text-xl font-semibold">Is my email stored?</h3>
-          <p class="text-gray-400">No, we never store or share your email address.</p>
-        </div>
-        <div>
-          <h3 class="text-xl font-semibold">How does WeScan work?</h3>
-          <p class="text-gray-400">We scan your input against verified breach data using trusted APIs like HaveIBeenPwned.</p>
-        </div>
-        <div>
-          <h3 class="text-xl font-semibold">Is this service free?</h3>
-          <p class="text-gray-400">Yes, we believe digital safety should be accessible to everyone at no cost.</p>
-        </div>
-        <div>
-          <h3 class="text-xl font-semibold">What should I do if I'm in a breach?</h3>
-          <p class="text-gray-400">Change your password immediately, enable two-factor authentication, and monitor your accounts.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer class="text-center py-10 text-sm text-gray-500">
-    &copy; 2025 WeScan.live — Built to protect, not to profit.
-  </footer>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const scanForm = document.getElementById('scan-form');
-      const emailInput = document.getElementById('email-input');
-      const scanButton = document.getElementById('scan-button');
-      const buttonText = document.getElementById('button-text');
-      const spinner = document.getElementById('spinner');
-      const resultsContainer = document.getElementById('results-container');
-      
-      // Function to show loading state
-      function showLoading() {
-        buttonText.textContent = 'Scanning...';
-        spinner.classList.remove('hidden');
-        scanButton.disabled = true;
-      }
-      
-      // Function to hide loading state
-      function hideLoading() {
-        buttonText.textContent = 'Scan Now';
-        spinner.classList.add('hidden');
-        scanButton.disabled = false;
-      }
-      
-      // Function to display results
-      function displayResults(breaches) {
-        resultsContainer.innerHTML = '';
-        resultsContainer.classList.remove('hidden');
-        
-        if (breaches.length === 0) {
-          resultsContainer.innerHTML = `
-            <div class="result-card p-6 rounded-lg mt-6">
-              <div class="flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-green-500 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <div>
-                  <h3 class="text-2xl font-bold">No breaches found!</h3>
-                  <p class="text-gray-300 mt-2">Your email hasn't appeared in any known data breaches.</p>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Protect Your Digital Life</h1>
+            <p>Advanced security intelligence to detect compromised accounts and prevent identity theft</p>
+            
+            <div class="scan-card floating">
+                <h2 style="font-size: 1.8rem; margin-bottom: 1.5rem;">Check Your Email Security</h2>
+                <p style="color: var(--light-text); margin-bottom: 1rem;">Enter your email to see if it's been compromised in a data breach</p>
+                
+                <form class="scan-form">
+                    <input type="email" class="scan-input" placeholder="your.email@example.com" required>
+                    <button type="submit" class="action-btn">Scan Now</button>
+                </form>
+                
+                <p class="security-note">
+                    <i class="fas fa-lock"></i> Your email is never stored or shared. 100% private.
+                </p>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">11.6B+</div>
+                    <div class="stat-label">Accounts Monitored</div>
                 </div>
-              </div>
+                <div class="stat-item">
+                    <div class="stat-number">780+</div>
+                    <div class="stat-label">Data Breaches</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">98.7%</div>
+                    <div class="stat-label">Accuracy Rate</div>
+                </div>
             </div>
-          `;
-          return;
-        }
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <h2 class="section-title">Enterprise-Grade Protection</h2>
+            <p class="section-subtitle">Comprehensive security solutions for individuals and businesses</p>
+        </div>
         
-        let html = `
-          <div class="result-card p-6 rounded-lg mt-6">
-            <div class="flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-yellow-500 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-              </svg>
-              <div>
-                <h3 class="text-2xl font-bold">Breach Alert!</h3>
-                <p class="text-gray-300 mt-2">Your email was found in ${breaches.length} data breach${breaches.length > 1 ? 'es' : ''}.</p>
-              </div>
-            </div>
-            
-            <div class="mt-6">
-              <h4 class="text-xl font-semibold mb-4">Affected Services:</h4>
-              <div class="space-y-4">
-        `;
-        
-        breaches.forEach(breach => {
-          const date = new Date(breach.BreachDate).toLocaleDateString();
-          html += `
-            <div class="breach-item p-4">
-              <div class="flex justify-between items-center">
-                <div class="font-semibold">${breach.Title}</div>
-                <div class="text-sm text-gray-400">${date}</div>
-              </div>
-              <div class="mt-2 text-sm text-gray-300">${breach.Description}</div>
-              <div class="mt-3 flex flex-wrap gap-2">
-                <span class="bg-blue-900 text-blue-300 text-xs px-2 py-1 rounded">${breach.Domain}</span>
-                <span class="bg-purple-900 text-purple-300 text-xs px-2 py-1 rounded">${breach.DataClasses.length} data types exposed</span>
-              </div>
-            </div>
-          `;
-        });
-        
-        html += `
-              </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="feature-title">Real-time Monitoring</h3>
+                <p class="feature-description">Continuous surveillance of dark web markets and data breaches for your personal information.</p>
             </div>
             
-            <div class="mt-8 bg-[#0a192f] p-4 rounded-lg">
-              <h4 class="font-semibold text-lg mb-2">What to do now:</h4>
-              <ul class="list-disc pl-5 space-y-2 text-sm text-gray-300">
-                <li>Change your password for the affected services immediately</li>
-                <li>Enable two-factor authentication wherever possible</li>
-                <li>Check if you've reused this password on other sites</li>
-                <li>Consider using a password manager for better security</li>
-                <li>Monitor your accounts for suspicious activity</li>
-              </ul>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <h3 class="feature-title">Instant Alerts</h3>
+                <p class="feature-description">Get notified immediately when your data appears in new breaches or on dark web forums.</p>
             </div>
-          </div>
-        `;
-        
-        resultsContainer.innerHTML = html;
-      }
-      
-      // Function to display error
-      function displayError(message) {
-        resultsContainer.innerHTML = `
-          <div class="result-card p-6 rounded-lg mt-6">
-            <div class="flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-red-500 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <div>
-                <h3 class="text-2xl font-bold">Scan Failed</h3>
-                <p class="text-gray-300 mt-2">${message}</p>
-              </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3 class="feature-title">Password Security</h3>
+                <p class="feature-description">Check if your passwords have been compromised without revealing them to anyone.</p>
             </div>
-            <button onclick="window.location.reload()" class="action-btn mt-4">Try Again</button>
-          </div>
-        `;
-        resultsContainer.classList.remove('hidden');
-      }
-      
-      // Handle form submission
-      scanForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-user-secret"></i>
+                </div>
+                <h3 class="feature-title">Identity Protection</h3>
+                <p class="feature-description">Comprehensive monitoring for identity theft with recovery assistance if needed.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-file-invoice"></i>
+                </div>
+                <h3 class="feature-title">Detailed Reports</h3>
+                <p class="feature-description">Understand your exposure with detailed analysis and recommended actions.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-sync-alt"></i>
+                </div>
+                <h3 class="feature-title">Automated Protection</h3>
+                <p class="feature-description">Set up automatic security measures when a breach is detected.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>WeScan.live</h3>
+                <p style="color: var(--light-text); margin-bottom: 1.5rem;">Advanced digital protection for everyone. Security shouldn't be a luxury.</p>
+                <button class="action-btn">Start Free Trial</button>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Solutions</h3>
+                <ul class="footer-links">
+                    <li><a href="#">For Individuals</a></li>
+                    <li><a href="#">For Families</a></li>
+                    <li><a href="#">For Business</a></li>
+                    <li><a href="#">For Enterprises</a></li>
+                    <li><a href="#">Government Solutions</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Security Blog</a></li>
+                    <li><a href="#">Breach Database</a></li>
+                    <li><a href="#">Security Tools</a></li>
+                    <li><a href="#">Research Reports</a></li>
+                    <li><a href="#">Help Center</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Legal</a></li>
+                </ul>
+            </div>
+        </div>
         
-        const email = emailInput.value.trim();
-        if (!email) return;
-        
-        showLoading();
-        resultsContainer.classList.add('hidden');
-        
-        try {
-          // This would be replaced with your actual server endpoint
-          // For demo purposes, we'll simulate API call with mock data
-          const mockApiCall = () => {
-            return new Promise((resolve) => {
-              setTimeout(() => {
-                // Mock response based on email domain
-                if (email.includes('secure')) {
-                  resolve([]); // No breaches
-                } else {
-                  resolve([
-                    {
-                      Name: "Adobe",
-                      Title: "Adobe",
-                      Domain: "adobe.com",
-                      BreachDate: "2013-10-04",
-                      AddedDate: "2013-12-04T00:00:00Z",
-                      ModifiedDate: "2013-12-04T00:00:00Z",
-                      PwnCount: 152445165,
-                      Description: "In October 2013, 153 million Adobe accounts were breached with each containing an internal ID, username, email, encrypted password and a password hint in plain text.",
-                      DataClasses: ["Email addresses", "Password hints", "Passwords", "Usernames"],
-                      IsVerified: true
-                    },
-                    {
-                      Name: "LinkedIn",
-                      Title: "LinkedIn",
-                      Domain: "linkedin.com",
-                      BreachDate: "2012-05-05",
-                      AddedDate: "2016-05-21T21:35:40Z",
-                      ModifiedDate: "2016-05-21T21:35:40Z",
-                      PwnCount: 164611595,
-                      Description: "In May 2016, LinkedIn had 164 million email addresses and passwords exposed. Originally hacked in 2012, the data remained out of sight until being offered for sale on a dark market site 4 years later.",
-                      DataClasses: ["Email addresses", "Passwords"],
-                      IsVerified: true
-                    }
-                  ]);
+        <div class="copyright">
+            &copy; 2025 WeScan.live. All rights reserved. Built to protect, not to profit.
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
                 }
-              }, 1500);
             });
-          };
-          
-          const breaches = await mockApiCall();
-          displayResults(breaches);
-        } catch (error) {
-          console.error('Error:', error);
-          displayError('Failed to scan for breaches. Please try again later.');
-        } finally {
-          hideLoading();
-        }
-      });
-      
-      // Smooth scrolling for anchor links
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-          e.preventDefault();
-          document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-          });
         });
-      });
-    });
-  </script>
+        
+        // Form submission
+        const scanForm = document.querySelector('.scan-form');
+        scanForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('.scan-input').value;
+            
+            // Create a loading effect
+            const button = this.querySelector('.action-btn');
+            const originalText = button.textContent;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Scanning...';
+            button.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.disabled = false;
+                
+                // Show result
+                alert(`Scan complete for ${email}\nNo breaches found. Your email is secure!`);
+            }, 2000);
+        });
+        
+        // Parallax effect for hero section
+        window.addEventListener('scroll', function() {
+            const scrollPosition = window.scrollY;
+            const hero = document.querySelector('.hero');
+            hero.style.backgroundPositionY = -scrollPosition * 0.5 + 'px';
+        });
+        
+        // Card hover animations
+        const featureCards = document.querySelectorAll('.feature-card');
+        featureCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-10px)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
 </body>
 </html>
