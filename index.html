@@ -1,114 +1,356 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>WeScan.live — Digital Protection for All</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-      body {
-        background-color: #0a192f;
-        color: #e6f1ff;
-        font-family: 'Inter', sans-serif;
-      }
-      .main-card {
-        background-color: #112240;
-        border-radius: 0.5rem;
-        padding: 3rem;
-        max-width: 640px;
-        margin: auto;
-        box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
-      }
-      .action-btn {
-        background-color: #64ffda;
-        color: #0a192f;
-        font-weight: bold;
-        padding: 0.75rem 1.5rem;
-        border-radius: 0.375rem;
-        transition: transform 0.2s, box-shadow 0.3s;
-      }
-      .action-btn:hover {
-        transform: scale(1.03);
-        box-shadow: 0 0 15px rgba(100, 255, 218, 0.8);
-      }
-    </style>
-  </head>
-  <body class="min-h-screen flex flex-col">
-    <header class="p-6 flex justify-center items-center bg-[#0f2a40] shadow-md">
-      <div class="text-2xl font-bold text-white text-center">WeScan.live</div>
-    </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WeScan.live — Digital Protection for All</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #0a192f;
+      color: #e6f1ff;
+      font-family: 'Inter', sans-serif;
+    }
+    .main-card {
+      background-color: #112240;
+      border-radius: 0.5rem;
+      padding: 3rem;
+      max-width: 640px;
+      margin: auto;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
+    }
+    .action-btn {
+      background-color: #64ffda;
+      color: #0a192f;
+      font-weight: bold;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.375rem;
+      transition: transform 0.2s, box-shadow 0.3s;
+    }
+    .action-btn:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 15px rgba(100, 255, 218, 0.8);
+    }
+    .result-card {
+      background-color: #0f2a40;
+      border-left: 4px solid #64ffda;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .breach-item {
+      background-color: #112240;
+      border-radius: 0.375rem;
+      transition: all 0.3s ease;
+    }
+    .breach-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .spinner {
+      width: 24px;
+      height: 24px;
+      border: 3px solid rgba(100, 255, 218, 0.3);
+      border-top: 3px solid #64ffda;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+  <header class="p-6 flex justify-center items-center bg-[#0f2a40] shadow-md">
+    <div class="text-2xl font-bold text-white text-center">WeScan.live</div>
+  </header>
 
-    <main class="flex-1 py-20 px-4">
-      <div class="main-card text-center">
-        <h1 class="text-4xl md:text-5xl font-bold mb-6">Scan for email breaches. Stay safe..</h1>
-        <p class="mb-6 text-gray-300">Born from concern, built with care — WeScan protects people like you.</p>
+  <main class="flex-1 py-20 px-4">
+    <div class="main-card text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-6">Scan for email breaches. Stay safe.</h1>
+      <p class="mb-6 text-gray-300">Born from concern, built with care — WeScan protects people like you.</p>
 
-        <form class="flex flex-col md:flex-row gap-4 justify-center mt-8">
-          <input type="email" placeholder="Enter your email" required class="p-3 rounded-md w-full md:w-96 text-gray-800 shadow-sm" />
-          <button type="submit" class="action-btn">Scan Now</button>
-        </form>
+      <form id="scan-form" class="flex flex-col md:flex-row gap-4 justify-center mt-8">
+        <input 
+          type="email" 
+          id="email-input" 
+          placeholder="Enter your email" 
+          required 
+          class="p-3 rounded-md w-full md:w-96 text-gray-800 shadow-sm" 
+        />
+        <button type="submit" id="scan-button" class="action-btn flex items-center justify-center">
+          <span id="button-text">Scan Now</span>
+          <span id="spinner" class="spinner ml-2 hidden"></span>
+        </button>
+      </form>
 
-        <p class="mt-6 text-sm text-gray-400">Your email is never stored or shared.</p>
+      <p class="mt-6 text-sm text-gray-400">Your email is never stored or shared.</p>
+      
+      <div id="results-container" class="mt-8 text-left hidden">
+        <!-- Results will be displayed here -->
       </div>
+    </div>
 
-      <nav class="mt-16 flex justify-center gap-6 text-lg text-gray-400">
-        <a href="#blog" class="hover:text-white">Blog</a>
-        <a href="#contact" class="hover:text-white">Contact</a>
-        <a href="#about" class="hover:text-white">About</a>
-        <a href="#faq" class="hover:text-white">FAQ</a>
-      </nav>
-    </main>
+    <nav class="mt-16 flex justify-center gap-6 text-lg text-gray-400">
+      <a href="#blog" class="hover:text-white">Blog</a>
+      <a href="#contact" class="hover:text-white">Contact</a>
+      <a href="#about" class="hover:text-white">About</a>
+      <a href="#faq" class="hover:text-white">FAQ</a>
+    </nav>
+  </main>
 
-    <section id="blog" class="py-20 px-6 bg-[#0f2a40]">
-      <div class="max-w-4xl mx-auto">
-        <h2 class="text-3xl font-bold mb-8 text-center">📚 Latest Posts</h2>
-        <div class="grid md:grid-cols-2 gap-6">
-          <div class="bg-[#112240] p-6 rounded-lg shadow-md">
-            <h3 class="text-xl font-semibold mb-2">🔍 How to Know if You’ve Been Hacked</h3>
-            <p class="text-sm text-gray-400">Understand early signs and the steps to recover fast.</p>
-          </div>
-          <div class="bg-[#112240] p-6 rounded-lg shadow-md">
-            <h3 class="text-xl font-semibold mb-2">🛡️ Best Practices for Email Safety</h3>
-            <p class="text-sm text-gray-400">Learn how to protect your inbox and digital footprint.</p>
-          </div>
+  <section id="blog" class="py-20 px-6 bg-[#0f2a40]">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold mb-8 text-center">📚 Latest Posts</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-[#112240] p-6 rounded-lg shadow-md">
+          <h3 class="text-xl font-semibold mb-2">🔍 How to Know if You've Been Hacked</h3>
+          <p class="text-sm text-gray-400">Understand early signs and the steps to recover fast.</p>
+        </div>
+        <div class="bg-[#112240] p-6 rounded-lg shadow-md">
+          <h3 class="text-xl font-semibold mb-2">🛡️ Best Practices for Email Safety</h3>
+          <p class="text-sm text-gray-400">Learn how to protect your inbox and digital footprint.</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section id="contact" class="py-20 px-6">
-      <div class="max-w-xl mx-auto text-center">
-        <h2 class="text-3xl font-bold mb-6">Need Help or Have Questions?</h2>
-        <p class="mb-8 text-gray-300">We’re real people. Just drop us a line and we’ll get back to you.</p>
-        <a href="mailto:support@wescan.live" class="action-btn inline-block">Email Us</a>
-      </div>
-    </section>
+  <section id="contact" class="py-20 px-6">
+    <div class="max-w-xl mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-6">Need Help or Have Questions?</h2>
+      <p class="mb-8 text-gray-300">We're real people. Just drop us a line and we'll get back to you.</p>
+      <a href="mailto:support@wescan.live" class="action-btn inline-block">Email Us</a>
+    </div>
+  </section>
 
-    <section id="about" class="py-20 px-6 bg-[#0f2a40]">
-      <div class="max-w-3xl mx-auto text-center">
-        <h2 class="text-3xl font-bold mb-6">About WeScan.live</h2>
-        <p class="text-gray-300">WeScan is built by everyday people to give everyone the power to check and understand digital breaches. We believe in transparency and safety for all.</p>
-      </div>
-    </section>
+  <section id="about" class="py-20 px-6 bg-[#0f2a40]">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-6">About WeScan.live</h2>
+      <p class="text-gray-300">WeScan is built by everyday people to give everyone the power to check and understand digital breaches. We believe in transparency and safety for all.</p>
+    </div>
+  </section>
 
-    <section id="faq" class="py-20 px-6">
-      <div class="max-w-3xl mx-auto">
-        <h2 class="text-3xl font-bold mb-6 text-center">Frequently Asked Questions</h2>
-        <div class="space-y-6">
-          <div>
-            <h3 class="text-xl font-semibold">Is my email stored?</h3>
-            <p class="text-gray-400">No, we never store or share your email address.</p>
-          </div>
-          <div>
-            <h3 class="text-xl font-semibold">How does WeScan work?</h3>
-            <p class="text-gray-400">We scan your input against verified breach data using trusted APIs like HaveIBeenPwned.</p>
-          </div>
+  <section id="faq" class="py-20 px-6">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-3xl font-bold mb-6 text-center">Frequently Asked Questions</h2>
+      <div class="space-y-6">
+        <div>
+          <h3 class="text-xl font-semibold">Is my email stored?</h3>
+          <p class="text-gray-400">No, we never store or share your email address.</p>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold">How does WeScan work?</h3>
+          <p class="text-gray-400">We scan your input against verified breach data using trusted APIs like HaveIBeenPwned.</p>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold">Is this service free?</h3>
+          <p class="text-gray-400">Yes, we believe digital safety should be accessible to everyone at no cost.</p>
+        </div>
+        <div>
+          <h3 class="text-xl font-semibold">What should I do if I'm in a breach?</h3>
+          <p class="text-gray-400">Change your password immediately, enable two-factor authentication, and monitor your accounts.</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <footer class="text-center py-10 text-sm text-gray-500">
-      &copy; 2025 WeScan.live — Built to protect, not to profit.
-    </footer>
-  </body>
+  <footer class="text-center py-10 text-sm text-gray-500">
+    &copy; 2025 WeScan.live — Built to protect, not to profit.
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const scanForm = document.getElementById('scan-form');
+      const emailInput = document.getElementById('email-input');
+      const scanButton = document.getElementById('scan-button');
+      const buttonText = document.getElementById('button-text');
+      const spinner = document.getElementById('spinner');
+      const resultsContainer = document.getElementById('results-container');
+      
+      // Function to show loading state
+      function showLoading() {
+        buttonText.textContent = 'Scanning...';
+        spinner.classList.remove('hidden');
+        scanButton.disabled = true;
+      }
+      
+      // Function to hide loading state
+      function hideLoading() {
+        buttonText.textContent = 'Scan Now';
+        spinner.classList.add('hidden');
+        scanButton.disabled = false;
+      }
+      
+      // Function to display results
+      function displayResults(breaches) {
+        resultsContainer.innerHTML = '';
+        resultsContainer.classList.remove('hidden');
+        
+        if (breaches.length === 0) {
+          resultsContainer.innerHTML = `
+            <div class="result-card p-6 rounded-lg mt-6">
+              <div class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-green-500 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <div>
+                  <h3 class="text-2xl font-bold">No breaches found!</h3>
+                  <p class="text-gray-300 mt-2">Your email hasn't appeared in any known data breaches.</p>
+                </div>
+              </div>
+            </div>
+          `;
+          return;
+        }
+        
+        let html = `
+          <div class="result-card p-6 rounded-lg mt-6">
+            <div class="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-yellow-500 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+              <div>
+                <h3 class="text-2xl font-bold">Breach Alert!</h3>
+                <p class="text-gray-300 mt-2">Your email was found in ${breaches.length} data breach${breaches.length > 1 ? 'es' : ''}.</p>
+              </div>
+            </div>
+            
+            <div class="mt-6">
+              <h4 class="text-xl font-semibold mb-4">Affected Services:</h4>
+              <div class="space-y-4">
+        `;
+        
+        breaches.forEach(breach => {
+          const date = new Date(breach.BreachDate).toLocaleDateString();
+          html += `
+            <div class="breach-item p-4">
+              <div class="flex justify-between items-center">
+                <div class="font-semibold">${breach.Title}</div>
+                <div class="text-sm text-gray-400">${date}</div>
+              </div>
+              <div class="mt-2 text-sm text-gray-300">${breach.Description}</div>
+              <div class="mt-3 flex flex-wrap gap-2">
+                <span class="bg-blue-900 text-blue-300 text-xs px-2 py-1 rounded">${breach.Domain}</span>
+                <span class="bg-purple-900 text-purple-300 text-xs px-2 py-1 rounded">${breach.DataClasses.length} data types exposed</span>
+              </div>
+            </div>
+          `;
+        });
+        
+        html += `
+              </div>
+            </div>
+            
+            <div class="mt-8 bg-[#0a192f] p-4 rounded-lg">
+              <h4 class="font-semibold text-lg mb-2">What to do now:</h4>
+              <ul class="list-disc pl-5 space-y-2 text-sm text-gray-300">
+                <li>Change your password for the affected services immediately</li>
+                <li>Enable two-factor authentication wherever possible</li>
+                <li>Check if you've reused this password on other sites</li>
+                <li>Consider using a password manager for better security</li>
+                <li>Monitor your accounts for suspicious activity</li>
+              </ul>
+            </div>
+          </div>
+        `;
+        
+        resultsContainer.innerHTML = html;
+      }
+      
+      // Function to display error
+      function displayError(message) {
+        resultsContainer.innerHTML = `
+          <div class="result-card p-6 rounded-lg mt-6">
+            <div class="flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-red-500 mr-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div>
+                <h3 class="text-2xl font-bold">Scan Failed</h3>
+                <p class="text-gray-300 mt-2">${message}</p>
+              </div>
+            </div>
+            <button onclick="window.location.reload()" class="action-btn mt-4">Try Again</button>
+          </div>
+        `;
+        resultsContainer.classList.remove('hidden');
+      }
+      
+      // Handle form submission
+      scanForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const email = emailInput.value.trim();
+        if (!email) return;
+        
+        showLoading();
+        resultsContainer.classList.add('hidden');
+        
+        try {
+          // This would be replaced with your actual server endpoint
+          // For demo purposes, we'll simulate API call with mock data
+          const mockApiCall = () => {
+            return new Promise((resolve) => {
+              setTimeout(() => {
+                // Mock response based on email domain
+                if (email.includes('secure')) {
+                  resolve([]); // No breaches
+                } else {
+                  resolve([
+                    {
+                      Name: "Adobe",
+                      Title: "Adobe",
+                      Domain: "adobe.com",
+                      BreachDate: "2013-10-04",
+                      AddedDate: "2013-12-04T00:00:00Z",
+                      ModifiedDate: "2013-12-04T00:00:00Z",
+                      PwnCount: 152445165,
+                      Description: "In October 2013, 153 million Adobe accounts were breached with each containing an internal ID, username, email, encrypted password and a password hint in plain text.",
+                      DataClasses: ["Email addresses", "Password hints", "Passwords", "Usernames"],
+                      IsVerified: true
+                    },
+                    {
+                      Name: "LinkedIn",
+                      Title: "LinkedIn",
+                      Domain: "linkedin.com",
+                      BreachDate: "2012-05-05",
+                      AddedDate: "2016-05-21T21:35:40Z",
+                      ModifiedDate: "2016-05-21T21:35:40Z",
+                      PwnCount: 164611595,
+                      Description: "In May 2016, LinkedIn had 164 million email addresses and passwords exposed. Originally hacked in 2012, the data remained out of sight until being offered for sale on a dark market site 4 years later.",
+                      DataClasses: ["Email addresses", "Passwords"],
+                      IsVerified: true
+                    }
+                  ]);
+                }
+              }, 1500);
+            });
+          };
+          
+          const breaches = await mockApiCall();
+          displayResults(breaches);
+        } catch (error) {
+          console.error('Error:', error);
+          displayError('Failed to scan for breaches. Please try again later.');
+        } finally {
+          hideLoading();
+        }
+      });
+      
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+          });
+        });
+      });
+    });
+  </script>
+</body>
 </html>
